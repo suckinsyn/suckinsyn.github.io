@@ -1,0 +1,13 @@
+{
+    "icons": {
+    "int": "intelligence.png",
+    "int_dmg_big": "int_dmg.png",
+    "str": "str.png",
+    "magic_shield_percent_big": "magic_shield.png",
+    "magic_shield_regen_percent":  "magic_shield.png",
+    "magic_shield_regen_percent_big":  "magic_shield.png"
+    },
+    "descriptions": {
+        "mantra": "mmorpg.stat.physical_weapon_damage_per_perc_of_mana"
+    }
+}
