@@ -185,6 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                 zoomLevel = zoomOutMax;
                                                 updateZoom();
                                                 centerContent();
+finalizeTableRendering();
                                             }, 300);
                                         }, 500);
                                     }, 500);
