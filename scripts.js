@@ -288,4 +288,10 @@ document.addEventListener("DOMContentLoaded", function () {
             tableContainer.scrollTop = newScrollTop;
         }
     });
+
+function finalizeTableRendering() {
+    // Signal that the table rendering is complete
+    const event = new CustomEvent('tableRendered');
+    document.dispatchEvent(event);
+}
 });
