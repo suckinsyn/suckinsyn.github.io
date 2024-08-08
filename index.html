@@ -8,11 +8,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="scripts.js" defer></script>
-    <script src="dot.js"></script>
+    <script src="drawLines.js"></script>
 </head>
 <body>
     <h1>CTE2 Build Planner (alpha)</h1>
-    <canvas id="line-canvas" style="position: absolute; top: 0; left: 0; pointer-events: none; z-index: 99999;"></canvas>
+    <canvas id="myCanvas" width="1200" height="1200"></canvas>
     <div id="file-selector">
         <label for="csv-file">Select a CSV file:</label>
         <select id="csv-file">

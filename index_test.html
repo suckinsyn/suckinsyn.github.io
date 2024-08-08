@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV to SVG Viewer</title>
+    <style>
+        #container {
+            width: 1000px;
+            height: 1000px;
+            border: 1px solid black;
+            position: relative;
+            touch-action: none; /* Disable default touch actions for zoom/pan */
+            overflow: hidden; /* Hide scrollbars */
+            background: url('background.png') repeat; /* Set repeating background image */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        svg {
+            position: absolute;
+            pointer-events: all; /* Ensure SVG elements are interactive */
+        }
+        .cell {
+            cursor: pointer;
+            stroke: gold; /* Golden border */
+            stroke-width: 2; /* Width of the border */
+        }
+    </style>
+</head>
+<body>
+    <input type="file" id="csvFileInput" accept=".csv">
+    <div id="container">
+        <svg id="svgContainer"></svg>
+    </div>
+    <script>
+        document.getElementById('csvFileInput').addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file && file.type === 'text/csv') {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    parseCSV(e.target.result);
+                };
+                reader.readAsText(file);
+            } else {
+                console.error('Please upload a CSV file.');
+            }
+        }
+
+        function parseCSV(data) {
+            const rows = data.split('\n').map(row => row.split(','));
+            const svg = document.getElementById('svgContainer');
+            const cellSize = 16;
+            svg.innerHTML = ''; // Clear previous SVG content
+
+            const svgWidth = rows[0].length * cellSize;
+            const svgHeight = rows.length * cellSize;
+            svg.setAttribute('width', svgWidth);
+            svg.setAttribute('height', svgHeight);
+            console.log(`SVG Size: ${svgWidth}x${svgHeight}`);
+
+            rows.forEach((row, y) => {
+                row.forEach((cell, x) => {
+                    if (cell.trim() !== '') {
+                        const imageUrl = `data/icons/${cell.trim()}.png`;
+                        const image = new Image();
+                        image.src = imageUrl;
+                        image.onload = () => {
+                            const svgImage = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+                            svgImage.setAttribute('x', x * cellSize);
+                            svgImage.setAttribute('y', y * cellSize);
+                            svgImage.setAttribute('width', cellSize);
+                            svgImage.setAttribute('height', cellSize);
+                            svgImage.setAttribute('href', image.src);
+                            svgImage.classList.add('cell');
+                            svgImage.addEventListener('click', () => {
+                                console.log(`Cell (${x}, ${y})\nValue: ${cell}`);
+                            });
+                            svg.appendChild(svgImage);
+                            console.log(`Added image: ${image.src} at (${x * cellSize}, ${y * cellSize})`);
+                        };
+                        image.onerror = () => {
+                            console.error(`Failed to load image: ${imageUrl}`);
+                            addMissingCell(x, y, cellSize);
+                        };
+                    }
+                });
+            });
+
+            // Center the SVG initially
+            svg.setAttribute('transform', `translate(${1000 / 2 - svgWidth / 2}, ${1000 / 2 - svgHeight / 2})`);
+            console.log(`Centered SVG at (${1000 / 2 - svgWidth / 2}, ${1000 / 2 - svgHeight / 2})`);
+
+            // Initialize panning and zooming
+            initZoomPan(svg);
+        }
+
+        function addMissingCell(x, y, size) {
+            const svgImage = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+            svgImage.setAttribute('x', x * size);
+            svgImage.setAttribute('y', y * size);
+            svgImage.setAttribute('width', size);
+            svgImage.setAttribute('height', size);
+            svgImage.setAttribute('href', 'data/icons/missing.png');
+            svgImage.classList.add('cell');
+            svgImage.addEventListener('click', () => {
+                console.log(`Cell (${x}, ${y})\nValue: EMPTY`);
+            });
+            document.getElementById('svgContainer').appendChild(svgImage);
+            console.log(`Added missing cell at (${x * size}, ${y * size})`);
+        }
+
+        function initZoomPan(svg) {
+            const container = document.getElementById('container');
+            let isPanning = false;
+            let startX, startY, currentX, currentY;
+            let currentScale = 1;
+            let currentTranslateX = 0;
+            let currentTranslateY = 0;
+
+            function updateTransform() {
+                svg.setAttribute('transform', `translate(${currentTranslateX}, ${currentTranslateY}) scale(${currentScale})`);
+                console.log(`Transform applied: translate(${currentTranslateX}, ${currentTranslateY}) scale(${currentScale})`);
+            }
+
+            svg.addEventListener('pointerwheel', (event) => {
+                event.preventDefault();
+                const scaleFactor = 1.1;
+                const scaleChange = event.deltaY < 0 ? scaleFactor : 1 / scaleFactor;
+                currentScale *= scaleChange;
+                updateTransform();
+                console.log(`Zoomed ${event.deltaY < 0 ? 'in' : 'out'} to scale ${currentScale}`);
+            });
+
+            svg.addEventListener('pointerdown', (event) => {
+                isPanning = true;
+                startX = event.clientX;
+                startY = event.clientY;
+                console.log(`Pointer down at (${startX}, ${startY})`);
+            });
+
+            svg.addEventListener('pointermove', (event) => {
+                if (isPanning) {
+                    currentX = event.clientX;
+                    currentY = event.clientY;
+                    const dx = currentX - startX;
+                    const dy = currentY - startY;
+                    currentTranslateX += dx;
+                    currentTranslateY += dy;
+                    updateTransform();
+                    startX = currentX;
+                    startY = currentY;
+                    console.log(`Panned to (${currentTranslateX}, ${currentTranslateY})`);
+                }
+            });
+
+            svg.addEventListener('pointerup', () => {
+                isPanning = false;
+                console.log(`Pointer up`);
+            });
+
+            svg.addEventListener('pointercancel', () => {
+                isPanning = false;
+                console.log(`Pointer canceled`);
+            });
+
+            // Initial transform setup
+            updateTransform();
+        }
+    </script>
+</body>
+</html>

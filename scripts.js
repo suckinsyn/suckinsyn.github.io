@@ -185,7 +185,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                                 zoomLevel = zoomOutMax;
                                                 updateZoom();
                                                 centerContent();
-finalizeTableRendering();
                                             }, 300);
                                         }, 500);
                                     }, 500);
@@ -225,10 +224,17 @@ finalizeTableRendering();
     });
 
     function updateZoom() {
-        table.style.transform = `scale(${zoomLevel / 100})`;
+ table.style.transform = `scale(${zoomLevel / 100})`;
         table.style.transformOrigin = '0 0';
         zoomLevelSpan.textContent = `${zoomLevel}%`;
         updateTooltipFontSize();
+        const searchValue1 = "guardian";
+        const searchValue2 = "mantra";
+        setTimeout(() => {
+            findCoordinatesInElements(searchValue1, searchValue2);
+        }, 1000); // Delay to ensure elements are fully loaded and positioned
+        console.log(`Test3`);
+        
     }
 
     function updateTooltipFontSize() {
@@ -261,8 +267,17 @@ finalizeTableRendering();
         const y = e.pageY - tableContainer.offsetTop;
         const walkX = (x - startX) * 1;
         const walkY = (y - startY) * 1;
-        tableContainer.scrollLeft = scrollLeft - walkX;
-        tableContainer.scrollTop = scrollTop - walkY;
+        const smoothScroll = () => {
+            tableContainer.scrollLeft = scrollLeft - walkX;
+            tableContainer.scrollTop = scrollTop - walkY;
+            const searchValue1 = "guardian";
+            const searchValue2 = "mantra";
+            findCoordinatesInElements(searchValue1, searchValue2);
+            if (isDragging) {
+                requestAnimationFrame(smoothScroll);
+            }
+        };
+        requestAnimationFrame(smoothScroll);    
     });
 
     tableContainer.addEventListener('wheel', (e) => {
