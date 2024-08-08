@@ -3,42 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CTE2 Build Planner (alpha)</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="scripts.js" defer></script>
-    <script src="drawLines.js"></script>
+    <title>CTE2 Build Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="csv_loading.js"></script>
+    <script src="talent_tree.js"></script>
+    <script src="https://unpkg.com/svg-pan-zoom@3.6.0/dist/svg-pan-zoom.min.js"></script>
 </head>
 <body>
-    <h1>CTE2 Build Planner (alpha)</h1>
-    <canvas id="myCanvas" width="1200" height="1200"></canvas>
-    <div id="file-selector">
-        <label for="csv-file">Select a CSV file:</label>
-        <select id="csv-file">
-            <!-- Options will be populated by JavaScript -->
-        </select>
+    <label for="csvFileDropdown">Choose talent tree:</label>
+    <select id="csvFileDropdown">
+        <option value="" disabled selected style="display: none;"></option>
+    </select>
+    <div id="container">
+        <svg id="svgContainer"></svg>
     </div>
-    <div id="controls">
-        <button id="zoom-in">Zoom In +</button>
-        <button id="zoom-out">Zoom Out -</button>
-        <span id="zoom-level">100%</span>
-    </div>
-    <div id="loading-container" style="display: none;">
-        <div id="loading-bar">
-            <div id="loading-progress"></div>
-        </div>
-        <p id="loading-text">Loading... 0%</p>
-    </div>
-    <div id="map-container">
-        <div id="text-panel">
-            <!-- Add any text or content you want here -->
-            <p>Information about the table or instructions...</p>
-        </div>
-        <div id="table-container">
-            <canvas id="line-canvas"></canvas>
-            <table id="csv-table"></table>
-        </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadCsvList);
+        document.getElementById('csvFileDropdown').addEventListener('change', loadSelectedCsv);
+    </script>
 </body>
 </html>

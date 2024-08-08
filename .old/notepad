@@ -1,0 +1,106 @@
+/*
+function drawConnections(rows, cellSize) {
+    const connectorValues = ['o', 'p', 'h', 'v', 'k', 'u', 'j', 'm', 'n', 'l', 'i'];
+    const directions = [
+        { dx: 0, dy: -1 },  // up
+        { dx: 1, dy: 0 },   // right
+        { dx: 0, dy: 1 },   // down
+        { dx: -1, dy: 0 },  // left
+        { dx: 1, dy: -1 },  // diagonal up-right
+        { dx: 1, dy: 1 },   // diagonal down-right
+        { dx: -1, dy: 1 },  // diagonal down-left
+        { dx: -1, dy: -1 }  // diagonal up-left
+    ];
+
+    const svg = document.getElementById('svgContainer');
+    const maxScanRange = 1; // Limit the range to scan
+    const distanceThreshold = 2; // Maximum allowed distance to create a connection
+
+    rows.forEach((row, y) => {
+        row.forEach((cell, x) => {
+            const trimmedCell = cell.trim();
+            if (connectorValues.includes(trimmedCell)) {
+                let hasConnection = false;
+                let connections = [];
+
+                directions.forEach(({ dx, dy }) => {
+                    let nx = x + dx;
+                    let ny = y + dy;
+                    let steps = 0;
+
+                    while (steps < maxScanRange && nx >= 0 && ny >= 0 && ny < rows.length && nx < rows[ny].length) {
+                        const neighborCell = rows[ny][nx].trim();
+
+                        if (neighborCell === trimmedCell) {
+                            nx += dx;
+                            ny += dy;
+                            steps++;
+                            continue;
+                        }
+
+                        if (!connectorValues.includes(neighborCell) && neighborCell) {
+                            const distance = Math.sqrt((nx - x) ** 2 + (ny - y) ** 2);
+                            if (distance <= distanceThreshold) {
+                                drawLine(svg, x, y, nx, ny, cellSize);
+                                connections.push({ x: nx, y: ny });
+                                hasConnection = true;
+                            }
+                        }
+                        break;
+                    }
+                });
+
+                if (!hasConnection) {
+                    directions.forEach(({ dx, dy }) => {
+                        let nx = x + dx;
+                        let ny = y + dy;
+                        let steps = 0;
+
+                        while (steps < maxScanRange && nx >= 0 && ny >= 0 && ny < rows.length && nx < rows[ny].length) {
+                            const neighborCell = rows[ny][nx].trim();
+
+                            if (neighborCell === trimmedCell) {
+                                const distance = Math.sqrt((nx - x) ** 2 + (ny - y) ** 2);
+                                if (distance <= distanceThreshold) {
+                                    drawLine(svg, x, y, nx, ny, cellSize);
+                                }
+                                break;
+                            }
+                            nx += dx;
+                            ny += dy;
+                            steps++;
+                        }
+                    });
+                }
+
+                // Additional rule: Check if the node has only one connection to a data node
+                if (connections.length === 1) {
+                    const singleConnection = connections[0];
+                    const cx = singleConnection.x;
+                    const cy = singleConnection.y;
+
+                    directions.forEach(({ dx, dy }) => {
+                        let nx = x + dx;
+                        let ny = y + dy;
+                        let steps = 0;
+
+                        while (steps < maxScanRange && nx >= 0 && ny >= 0 && ny < rows.length && nx < rows[ny].length) {
+                            const neighborCell = rows[ny][nx].trim();
+
+                            if (connectorValues.includes(neighborCell) && neighborCell === trimmedCell) {
+                                const distance = Math.sqrt((nx - x) ** 2 + (ny - y) ** 2);
+                                if (distance <= distanceThreshold) {
+                                    drawLine(svg, x, y, nx, ny, cellSize);
+                                    break;
+                                }
+                            }
+                            nx += dx;
+                            ny += dy;
+                            steps++;
+                        }
+                    });
+                }
+            }
+        });
+    });
+}*/
