@@ -1,0 +1,74 @@
+body {
+    background-image: url('data/icons/ui/background.png');
+    background-repeat: repeat;
+    font-family: Arial, sans-serif;
+    color: #fab700;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#container {
+    width: 1120px;
+    height: 900px;
+    border: 1px solid black;
+    position: relative;
+    touch-action: none; /* Disable default touch actions for zoom/pan */
+    overflow: hidden; /* Hide scrollbars */
+    background: url('background.png') repeat; /* Set repeating background image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .3s;
+    transform-origin: 0 0;
+}
+
+svg {
+    position: absolute;
+    pointer-events: all; /* Ensure SVG elements are interactive */
+    z-index: 5; /* Ensure SVG is on top */
+    image-rendering: pixelated;
+}
+
+.cell {
+    cursor: pointer;
+    stroke: gold; /* Golden border for icons */
+    stroke-width: 2; /* Width of the border */
+}
+
+/* Line container styles */
+#lineContainer {
+    z-index: 1; /* Ensure lines are behind icons */
+}
+
+/* Line container styles */
+#iconContainer {
+    z-index: 7; /* Ensure lines are behind icons */
+}
+
+/* Styles for lines inside the lineContainer */
+#lineContainer line {
+    stroke: #fab700; /* Default color for lines */
+    stroke-width: 2; 
+    stroke-linecap: round; 
+    stroke-linejoin: round;
+    pointer-events: none; /* Ensure lines don't interfere with SVG interactions */
+}
+
+/* Styles for special icons */
+.special {
+    z-index: 9; /* Ensure special icons are between lines and SVG images */
+    image-rendering: pixelated;
+    width: 1.5vw; /* Width relative to the viewport width */
+    height: 1.5vw; /* Height relative to the viewport width */
+    transform: translate(-1px, -1px);
+}
+
+.special2 {
+    z-index: 9;
+}
+
+#container2 { /* Specific styles for the second container */
+    z-index: 10; /* Higher z-index to ensure it's on top */
+}

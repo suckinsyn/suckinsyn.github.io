@@ -3,18 +3,18 @@ body {
     background-repeat: repeat;
     font-family: Arial, sans-serif;
     color: #fab700;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0; /* Ensure no default margins */
+    height: 100vh; /* Full viewport height */
 }
 
 #container {
     width: 1120px;
     height: 900px;
-    border: 1px solid #fff;
+    border: 1px solid rgb(255, 255, 255);
     position: relative;
     touch-action: none; /* Disable default touch actions for zoom/pan */
     overflow: hidden; /* Hide scrollbars */
@@ -25,7 +25,7 @@ body {
     justify-content: center;
     transition: transform .3s;
     transform-origin: 0 0;
-    z-index: 1;
+    z-index: 1; 
 }
 
 svg {
@@ -37,49 +37,33 @@ svg {
 }
 
 .cell {
+    cursor: pointer;
     stroke: gold; /* Golden border for icons */
     stroke-width: 2; /* Width of the border */
-    cursor: pointer;
-    
+
 }
 
+/* Line container styles */
 #lineContainer {
     z-index: 1; /* Ensure lines are behind icons */
 }
 
-#lineContainer line {
-   /* stroke: #fab700; /* Default color for lines */
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+/* Icon container styles */
+#iconContainer {
+    z-index: 1; /* Ensure icons are above lines */
 }
 
+/* Styles for lines inside the lineContainer */
+#lineContainer line {
+    stroke: #fab700; /* Default color for lines */
+    stroke-width: 2; 
+    stroke-linecap: round; 
+    stroke-linejoin: round;
+    pointer-events: none; /* Ensure lines don't interfere with SVG interactions */
+}
+
+/* Styles for special icons */
 .special {
     z-index: 9; /* Ensure special icons are above lines but below SVG images */
     image-rendering: pixelated;
-    /*transform: scale(1.5); /* Scale up the element */
-    transform-origin: center; /* Center the scaling transformation */
-    fill: red;
-    -webkit-transform: scale(1);
-    -webkit-transform-origin: 50% 50%;
-    -webkit-transition:.3s;
-    transform: scale(1.2);
-    transform-origin: 50% 50%;
-    transition:.3s;
-    transform-box: fill-box;
-}
-
-/* CSS file or <style> tag */
-.line-off {
-    stroke: #fabb00;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.line-on {
-    stroke: #00FF00;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
 }

@@ -104,3 +104,71 @@ function drawConnections(rows, cellSize) {
         });
     });
 }*/
+
+/*
+function loadImage(cell, x, y, size) {
+
+    // Render additional icon if the cell name ends with '_big'
+  //  if (cell.endsWith('_big')) {
+  //      renderAdditionalIcon(x, y, size);
+  //  }
+    // Remove "_big" suffix if it exists
+    const baseName = cell.endsWith('_big') ? cell.slice(0, -4) : cell;
+    const imageUrl = `data/icons/${baseName}.png`;
+    const image = new Image();
+    image.src = imageUrl;
+    
+    image.onload = () => {
+        const svgImage = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+        svgImage.setAttribute('x', x * size);
+        svgImage.setAttribute('y', y * size);
+        svgImage.setAttribute('width', size);
+        svgImage.setAttribute('height', size);
+        svgImage.setAttribute('href', image.src);
+        svgImage.classList.add('cell');
+        svgImage.addEventListener('click', () => {
+            console.log(`Cell (${x}, ${y})\nValue: ${cell}`);
+        });
+        document.getElementById('svgContainer').appendChild(svgImage);
+        console.log(`Added image: ${image.src} at (${x * size}, ${y * size})`);
+    };
+    
+    image.onerror = () => {
+        console.error(`Failed to load image: ${imageUrl}`);
+        const mappedImage = missingMappings[cell] || 'missing.png';
+        addMissingCell(x, y, size, mappedImage, cell);
+    };
+
+    if (cell.endsWith('_big')) {
+        renderAdditionalIcon(x, y, size);
+    }
+}
+
+function renderAdditionalIcon(x, y, size) {
+    const iconContainer = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+    iconContainer.setAttribute('x', x * size);
+    iconContainer.setAttribute('y', y * size);
+    iconContainer.setAttribute('width', size);
+    iconContainer.setAttribute('height', size);
+    iconContainer.setAttribute('href', 'data/icons/borders/special_off.png');
+    iconContainer.classList.add('cell', 'special'); // Add 'special' class here
+    document.getElementById('svgContainer').appendChild(iconContainer);
+    console.log(`Added special icon at (${x * size}, ${y * size})`);
+}
+
+function addMissingCell(x, y, size, imageName, originalFileName) {
+    const imageUrl = `data/icons/${imageName}`;
+    const svgImage = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+    svgImage.setAttribute('x', x * size);
+    svgImage.setAttribute('y', y * size);
+    svgImage.setAttribute('width', size);
+    svgImage.setAttribute('height', size);
+    svgImage.setAttribute('href', imageUrl);
+    svgImage.classList.add('cell');
+    svgImage.addEventListener('click', () => {
+        console.log(`Cell (${x}, ${y})\nValue: MISSING (${originalFileName})`);
+    });
+    document.getElementById('svgContainer').appendChild(svgImage);
+    console.log(`Added missing cell for file '${originalFileName}' with image '${imageName}' at (${x * size}, ${y * size})`);
+}
+*/
